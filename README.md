@@ -4,30 +4,18 @@ A Django REST API for managing shared equipment and reserving finite inventory.
 Reservations use half-open time ranges (`start_at <= t < end_at`), so one booking
 may start when another ends. Database transactions lock each resource while
 validating and writing bookings, preventing concurrent requests from reserving
-more units than exist. **MySQL is the only supported database.**
+more units than exist. **It uses MySQL database.**
 
 ## Requirements and setup
 
 - Python 3.12 or newer
-- MySQL 8.0.16+ (InnoDB tables) and the system libraries needed to build `mysqlclient`
-
-Create a MySQL database and a dedicated user. For a local MySQL server, connect
-as an administrator and run the following SQL (replace the sample password):
-
+- MySQL 8.0.16+ 
+Create a MySQL database and a dedicated user. For a local MySQL server, connect as an administrator 
 
 In PowerShell, configure the same database credentials as environment
 variables. Django does not load `.env` files automatically; `.env.example`
 lists every supported variable:
 
-```powershell
-$env:MYSQL_DATABASE = "equipment_manager"
-$env:MYSQL_USER = "equipment_manager"
-$env:MYSQL_PASSWORD = ""
-$env:MYSQL_HOST = "127.0.0.1"
-$env:MYSQL_PORT = "3306"
-$env:DJANGO_SECRET_KEY = ""
-$env:DJANGO_DEBUG = "False"
-$env:DJANGO_ALLOWED_HOSTS = "localhost,127.0.0.1"
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
