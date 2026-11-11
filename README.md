@@ -11,8 +11,13 @@ more units than exist. **MySQL is the only supported database.**
 - Python 3.12 or newer
 - MySQL 8.0.16+ (InnoDB tables) and the system libraries needed to build `mysqlclient`
 
-Create a MySQL database and user, then configure the environment using
-`.env.example` as a reference (Django does not load `.env` files automatically):
+Create a MySQL database and a dedicated user. For a local MySQL server, connect
+as an administrator and run the following SQL (replace the sample password):
+
+
+In PowerShell, configure the same database credentials as environment
+variables. Django does not load `.env` files automatically; `.env.example`
+lists every supported variable:
 
 ```powershell
 $env:MYSQL_DATABASE = "equipment_manager"
@@ -21,6 +26,8 @@ $env:MYSQL_PASSWORD = ""
 $env:MYSQL_HOST = "127.0.0.1"
 $env:MYSQL_PORT = "3306"
 $env:DJANGO_SECRET_KEY = ""
+$env:DJANGO_DEBUG = "False"
+$env:DJANGO_ALLOWED_HOSTS = "localhost,127.0.0.1"
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
@@ -28,6 +35,17 @@ python manage.py migrate
 python manage.py createsuperuser
 python manage.py runserver
 ```
+
+Open the interactive Swagger UI at
+**http://127.0.0.1:8000/api/docs/**. The raw OpenAPI schema is at
+`http://127.0.0.1:8000/api/schema/`; the alternative Redoc UI is at
+`http://127.0.0.1:8000/api/redoc/`. Swagger documents the request and response
+schemas for the API endpoints, including registration, token issuance, resources,
+and bookings. To try protected endpoints, use **POST `/api/auth/token/`** in
+Swagger with JSON username and password to obtain a token. Click **Authorize**
+and enter `Token <your-token>` (including the `Token` prefix and a space), then
+use **Try it out** on the endpoint you want to test. Swagger UI keeps the
+authorization for the current browser session.
 
 The custom user role is `member`, `manager`, or `admin`. New registrations are
 always members; privileged roles are assigned by a Django admin/superuser.

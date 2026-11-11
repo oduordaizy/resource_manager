@@ -49,7 +49,7 @@ class ResourceSerializer(serializers.ModelSerializer):
         )
         read_only_fields = ("id", "created_at", "updated_at", "available_quantity")
 
-    def get_available_quantity(self, resource):
+    def get_available_quantity(self, resource) -> int:
         at = self.context.get("availability_at")
         if at is None:
             from django.utils import timezone

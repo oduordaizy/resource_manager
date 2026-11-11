@@ -91,6 +91,7 @@ class ResourceViewSet(viewsets.ModelViewSet):
 
 
 class BookingViewSet(viewsets.ModelViewSet):
+    queryset = Booking.objects.all()
     serializer_class = BookingSerializer
     permission_classes = [IsAuthenticated, IsBookingOwnerOrManager]
     http_method_names = ["get", "post", "put", "patch", "delete", "head", "options"]
